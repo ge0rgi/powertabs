@@ -14,6 +14,8 @@
     "firefox": "web-ext run -s dist "
   },
   "dependencies": {
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.3.1",
     "vue": "^2.5.17",
     "webextension-polyfill": "^0.3.1"
   },
