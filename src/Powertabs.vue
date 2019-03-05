@@ -6,6 +6,7 @@
                <a v-bind:href="site.url">{{site.url}}</a>
            </li>
         </ol>
+        <h4>{{tabCountTitle}} {{tabCount}}</h4>
     </div>
 </template>
 
@@ -14,19 +15,21 @@
         data () {
           return {
               topSitesTitle: 'Top Sites',
-              topSites: []
+              tabCountTitle: "Tab Count",
+              topSites: [],
+              openTabs: [],
+              tabCount: 0
           }
         },
         created() {
-            //browser.tabs.query({currentWindow: true}).then(this.logTabs, () => {console.log("error")});
+            browser.tabs.query({currentWindow: true}).then(this.tabsLoaded);
             //TODO make limit configurable
             browser.topSites.get({limit: 5, includeFavicon: true}).then(this.topSitesLoaded);
         },
         methods: {
-            logTabs: function (tabs) {
-                for (let tab of tabs) {
-                    console.log(tab);
-                }
+            tabsLoaded: function (tabs) {
+                this.openTabs = this.openTabs.concat(tabs);
+                this.tabCount = this.openTabs.length;
             },
             topSitesLoaded: function (sites) {
                 this.topSites = this.topSites.concat(sites);
