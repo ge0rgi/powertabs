@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-                <tab-entry v-for="tab in openTabs" v-bind:tab="tab"></tab-entry>
+                <tab-entry v-for="tab in openTabs" :key="tab.id" :tab="tab"></tab-entry>
             </tbody>
         </table>
     </div>
