@@ -64,6 +64,7 @@ const config = {
       { from: '../node_modules/bootstrap/dist/css/bootstrap.css', to: 'vendor/bootstrap.css'},
       { from: '../node_modules/jquery/dist/jquery.slim.js', to: 'vendor/jquery.slim.js'},
       { from: '../node_modules/bootstrap/dist/js/bootstrap.bundle.js', to: 'vendor/bootstrap.bundle.js'},
+      { from: '../node_modules/moment/min/moment.min.js', to: 'vendor/moment.min.js'},
       {
         from: 'manifest.json',
         to: 'manifest.json',

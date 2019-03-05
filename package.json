@@ -11,11 +11,12 @@
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
-    "firefox": "web-ext run -s dist "
+    "firefox": "web-ext run -s dist -f /home/ge0rgi/dev/firefox/firefox -p /home/ge0rgi/dev/test_profile"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
+    "moment": "^2.24.0",
     "vue": "^2.5.17",
     "webextension-polyfill": "^0.3.1"
   },

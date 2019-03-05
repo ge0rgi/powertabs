@@ -7,11 +7,25 @@
            </li>
         </ol>
         <h4>{{tabCountTitle}} {{tabCount}}</h4>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Last Visited</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tab-entry v-for="tab in openTabs" v-bind:tab="tab"></tab-entry>
+            </tbody>
+        </table>
     </div>
 </template>
 
 <script>
+    import TabEntry from "./TabEntry";
     export default {
+        components: {TabEntry},
         data () {
           return {
               topSitesTitle: 'Top Sites',
