@@ -13,19 +13,30 @@
             <tr>
                 <th>Title</th>
                 <th>Last Visited</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-                <tab-entry v-for="tab in openTabs" :key="tab.id" :tab="tab"></tab-entry>
+                <template v-for="(tab, index) in openTabs">
+                    <tr>
+                        <td>{{tab.title}}</td>
+                        <td>{{tab.lastAccessed | moment}}</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-secondary" @click="openTab(tab.url)">Open here</button>
+                                <button type="button" class="btn btn-secondary" @click="gotoTab(tab.id)">Go to tab</button>
+                                <button type="button" class="btn btn-secondary" @click="closeTab(tab.id, index)">Close</button>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
             </tbody>
         </table>
     </div>
 </template>
 
 <script>
-    import TabEntry from "./TabEntry";
     export default {
-        components: {TabEntry},
         data () {
           return {
               topSitesTitle: 'Top Sites',
@@ -47,6 +58,22 @@
             },
             topSitesLoaded: function (sites) {
                 this.topSites = this.topSites.concat(sites);
+            },
+            openTab: function (url) {
+                browser.tabs.getCurrent().then(tab => browser.tabs.update(tab.id, {url: url}));
+            },
+            gotoTab: function (id) {
+                browser.tabs.getCurrent().then(tab => browser.tabs.update(id, {active: true})
+                    .then(this.closeTab(tab.id)));
+            },
+            closeTab: function (id, index) {
+                browser.tabs.remove(id);
+                this.openTabs.splice(index, 1);
+            }
+        },
+        filters:{
+            moment: function(date){
+                return moment(date).fromNow();
             }
         }
 
