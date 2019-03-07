@@ -22,7 +22,7 @@
                         <td>{{tab.title}}</td>
                         <td>{{tab.lastAccessed | moment}}</td>
                         <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
+                            <div class="btn-group" role="group">
                                 <button type="button" class="btn btn-secondary" @click="openTab(tab.url)">Open here</button>
                                 <button type="button" class="btn btn-secondary" @click="gotoTab(tab.id)">Go to tab</button>
                                 <button type="button" class="btn btn-secondary" @click="closeTab(tab.id, index)">Close</button>
