@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <h4>{{topSitesTitle}}</h4>
         <ol>
            <li v-for="site in topSites">
@@ -19,7 +19,7 @@
             <tbody>
                 <template v-for="(tab, index) in openTabs">
                     <tr>
-                        <td>{{tab.title}}</td>
+                        <td>{{tab.title | trim }}</td>
                         <td>{{tab.lastAccessed | moment}}</td>
                         <td>
                             <div class="btn-group" role="group">
@@ -75,6 +75,9 @@
         filters:{
             moment: function(date){
                 return moment(date).fromNow();
+            },
+            trim: function (str) {
+                return str.length > 80 ? str.substring(0,80) + "..." : str;
             }
         }
 
