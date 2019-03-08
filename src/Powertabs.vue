@@ -69,6 +69,7 @@
             closeTab: function (id, index) {
                 browser.tabs.remove(id);
                 this.openTabs.splice(index, 1);
+                this.tabCount--;
             }
         },
         filters:{
