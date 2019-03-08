@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody>
-                <template v-for="(tab, index) in openTabs">
+                <template v-for="(tab, index) in displayedTabs">
                     <tr>
                         <td>{{tab.title | trim }}</td>
                         <td>{{tab.lastAccessed | moment}}</td>
@@ -32,6 +32,11 @@
                 </template>
             </tbody>
         </table>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-secondary" @click="prevPage" v-if="page > 1">Prev</button>
+            <button type="button" class="btn btn-secondary" @click="nextPage" v-if="page < totalPages">Next</button>
+        </div>
+        <p>Page {{page}} of {{totalPages}} </p>
     </div>
 </template>
 
@@ -43,7 +48,10 @@
               tabCountTitle: "Tab Count",
               topSites: [],
               openTabs: [],
-              tabCount: 0
+              displayedTabs: [],
+              tabCount: 0,
+              page: 1,
+              totalPages: 1,
           }
         },
         created() {
@@ -55,6 +63,7 @@
             tabsLoaded: function (tabs) {
                 this.openTabs = this.openTabs.concat(tabs);
                 this.tabCount = this.openTabs.length;
+                this.updatePaging();
             },
             topSitesLoaded: function (sites) {
                 this.topSites = this.topSites.concat(sites);
@@ -70,6 +79,27 @@
                 browser.tabs.remove(id);
                 this.openTabs.splice(index, 1);
                 this.tabCount--;
+                this.updatePaging();
+            },
+            updatePaging: function () {
+                let oldCount = this.totalPages;
+                this.totalPages =  Math.ceil(this.tabCount / 20);
+                if (this.totalPages < oldCount){
+                    this.page--;
+                }
+                this.displayedTabs = this.openTabs.slice((this.page -1)*20, this.page * 20);
+            },
+            prevPage: function () {
+                if (this.page > 1 && this.page < this.totalPages){
+                    this.page--;
+                    this.updatePaging();
+                }
+            },
+            nextPage: function () {
+                if (this.page < this.totalPages) {
+                    this.page++;
+                    this.updatePaging();
+                }
             }
         },
         filters:{
