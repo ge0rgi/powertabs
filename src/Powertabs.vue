@@ -79,7 +79,7 @@
                 this.openTabs.splice(index, 1);
             },
             prevPage: function () {
-                if (this.page > 1 && this.page < this.totalPages){
+                if (this.page > 1){
                     this.page--;
                 }
             },
