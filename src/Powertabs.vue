@@ -20,7 +20,12 @@
             <tbody>
                 <template v-for="tab in displayedTabs">
                     <tr>
-                        <td>{{tab.title | trim }}</td>
+                        <td>
+                            <i v-if="tab.pinned" class="fas fa-thumbtack"></i>
+                            <i v-if="tab.audible && !tab.mutedInfo.muted" @click="toogleMute(tab)" class="fas fa-volume-up"></i>
+                            <i v-if="tab.audible && tab.mutedInfo.muted"  @click="toogleMute(tab)" class="fas fa-volume-mute"></i>
+                            {{tab.title | trim }}
+                        </td>
                         <td>{{tab.lastAccessed | moment}}</td>
                         <td>
                             <div class="btn-group" role="group">
@@ -107,6 +112,11 @@
                 } else {
                     this.filteredTabs = this.openTabs
                 }
+            },
+            toogleMute: function (tab) {
+                let toogle = !tab.mutedInfo.muted;
+                browser.tabs.update(tab.id, { muted: toogle}).
+                    then(browser.tabs.query({ currentWindow: true }).then(this.tabsLoaded));
             }
         },
         filters: {
