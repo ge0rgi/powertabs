@@ -59,7 +59,6 @@ const config = {
       filename: '[name].css',
     }),
     new CopyWebpackPlugin([
-      { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
       { from: 'newtab.html', to: 'newtab.html', transform: transformHtml },
       { from: '../node_modules/bootstrap/dist/css/bootstrap.css', to: 'vendor/bootstrap.css'},
       { from: '../node_modules/jquery/dist/jquery.slim.js', to: 'vendor/jquery.slim.js'},
