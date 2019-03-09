@@ -7,7 +7,8 @@
            </li>
         </ol>
         <h4>{{tabCountTitle}} {{tabCount}}</h4>
-
+        <h4 v-if="tabCount !== filteredTabCount">Search result count {{filteredTabCount}}</h4>
+        <input class="form-control form-control-lg" type="text" placeholder="Filter" v-model="filter">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -48,10 +49,9 @@
               tabCountTitle: "Tab Count",
               topSites: [],
               openTabs: [],
-              displayedTabs: [],
-              tabCount: 0,
+              filteredTabs: [],
               page: 1,
-              totalPages: 1,
+              filter: ''
           }
         },
         created() {
@@ -61,9 +61,8 @@
         },
         methods: {
             tabsLoaded: function (tabs) {
-                this.openTabs = this.openTabs.concat(tabs);
-                this.tabCount = this.openTabs.length;
-                this.updatePaging();
+                this.openTabs = tabs;
+                this.filteredTabs = this.openTabs;
             },
             topSitesLoaded: function (sites) {
                 this.topSites = this.topSites.concat(sites);
@@ -78,27 +77,15 @@
             closeTab: function (id, index) {
                 browser.tabs.remove(id);
                 this.openTabs.splice(index, 1);
-                this.tabCount--;
-                this.updatePaging();
-            },
-            updatePaging: function () {
-                let oldCount = this.totalPages;
-                this.totalPages =  Math.ceil(this.tabCount / 20);
-                if (this.totalPages < oldCount){
-                    this.page--;
-                }
-                this.displayedTabs = this.openTabs.slice((this.page -1)*20, this.page * 20);
             },
             prevPage: function () {
                 if (this.page > 1 && this.page < this.totalPages){
                     this.page--;
-                    this.updatePaging();
                 }
             },
             nextPage: function () {
                 if (this.page < this.totalPages) {
                     this.page++;
-                    this.updatePaging();
                 }
             }
         },
@@ -108,6 +95,25 @@
             },
             trim: function (str) {
                 return str.length > 80 ? str.substring(0,80) + "..." : str;
+            }
+        },
+        computed : {
+            tabCount: function () {
+                return this.openTabs.length;
+            },
+            filteredTabCount: function () {
+                return this.filteredTabs.length;
+            },
+            totalPages: function () {
+                return Math.ceil(this.filteredTabCount / 20);
+            },
+            displayedTabs: function () {
+                return this.filteredTabs.slice((this.page -1) * 20, this.page * 20);
+            }
+        },
+        watch: {
+            filter: function (value) {
+                this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(value.trim().toLowerCase()));
             }
         }
 
