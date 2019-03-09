@@ -18,7 +18,7 @@
             </tr>
             </thead>
             <tbody>
-                <template v-for="(tab, index) in displayedTabs">
+                <template v-for="tab in displayedTabs">
                     <tr>
                         <td>{{tab.title | trim }}</td>
                         <td>{{tab.lastAccessed | moment}}</td>
@@ -26,7 +26,7 @@
                             <div class="btn-group" role="group">
                                 <button type="button" class="btn btn-secondary" @click="openTab(tab.url)">Open here</button>
                                 <button type="button" class="btn btn-secondary" @click="gotoTab(tab.id)">Go to tab</button>
-                                <button type="button" class="btn btn-secondary" @click="closeTab(tab.id, index)">Close</button>
+                                <button type="button" class="btn btn-secondary" @click="closeTab(tab.id)">Close</button>
                             </div>
                         </td>
                     </tr>
@@ -63,7 +63,7 @@
         methods: {
             tabsLoaded: function (tabs) {
                 this.openTabs = tabs.sort(this.sortTabs);
-                this.filteredTabs = this.openTabs
+                this.updateFiltering();
             },
             sortTabs: function (a, b) {
                 if (a.lastAccessed > b.lastAccessed) {
@@ -84,9 +84,9 @@
                 browser.tabs.getCurrent().then(tab => browser.tabs.update(id, { active: true })
                     .then(this.closeTab(tab.id)))
             },
-            closeTab: function (id, index) {
+            closeTab: function (id) {
                 browser.tabs.remove(id);
-                this.openTabs.splice(index, 1)
+                browser.tabs.query({ currentWindow: true }).then(this.tabsLoaded);
             },
             prevPage: function () {
                 if (this.page > 1) {
@@ -100,6 +100,13 @@
             },
             changeSortOrder: function () {
                 this.sortAsc = !this.sortAsc
+            },
+            updateFiltering: function () {
+                if (this.filter.trim().length > 0) {
+                    this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(this.filter.trim().toLowerCase()))
+                } else {
+                    this.filteredTabs = this.openTabs
+                }
             }
         },
         filters: {
@@ -130,11 +137,8 @@
             },
             sortAsc: function () {
                 this.openTabs.reverse();
-                if (this.filter.trim().length > 0) {
-                    this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(this.filter.trim().toLowerCase()))
-                } else {
-                    this.filteredTabs = this.openTabs
-                }
+                this.updateFiltering();
+
             }
         }
     }

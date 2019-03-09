@@ -1,12 +1,9 @@
 {
   "name": "Powertabs",
-  "description": "A Vue.js web extension",
-  "version": "1.0.0",
+  "description": " replacement for the new tab page in Firefox. Provides a searchable and sortable list of all open tabs in the current window.",
+  "version": "1.0.1",
   "manifest_version": 2,
-  "icons": {
-    "48": "icons/icon_48.png",
-    "128": "icons/icon_128.png"
-  },
+
   "permissions": ["tabs", "topSites"],
 
   "chrome_url_overrides" : {
