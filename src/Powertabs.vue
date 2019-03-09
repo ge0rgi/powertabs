@@ -116,10 +116,6 @@
                 this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(value.trim().toLowerCase()));
             }
         }
-
-
-
-
     }
 </script>
 
