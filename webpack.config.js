@@ -65,6 +65,9 @@ const config = {
       { from: '../node_modules/jquery/dist/jquery.slim.js', to: 'vendor/jquery.slim.js'},
       { from: '../node_modules/bootstrap/dist/js/bootstrap.bundle.js', to: 'vendor/bootstrap.bundle.js'},
       { from: '../node_modules/moment/min/moment.min.js', to: 'vendor/moment.min.js'},
+      { from: '../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css', to: 'vendor/fontawesome.min.css'},
+      { from: '../node_modules/@fortawesome/fontawesome-free/css/solid.min.css', to: 'vendor/solid.min.css'},
+      { from: '../node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2', to: 'webfonts/fa-solid-900.woff2'},
       {
         from: 'manifest.json',
         to: 'manifest.json',

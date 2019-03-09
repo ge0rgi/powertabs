@@ -13,7 +13,7 @@
             <thead>
             <tr>
                 <th>Title</th>
-                <th>Last Visited</th>
+                <th @click="changeSortOrder">Last Visited <i v-if="sortAsc" class="fas fa-sort-alpha-up"></i> <i v-if="!sortAsc" class="fas fa-sort-alpha-down"></i> </th>
                 <th></th>
             </tr>
             </thead>
@@ -51,7 +51,8 @@
               openTabs: [],
               filteredTabs: [],
               page: 1,
-              filter: ''
+              filter: '',
+              sortAsc: true
           }
         },
         created() {
@@ -61,8 +62,17 @@
         },
         methods: {
             tabsLoaded: function (tabs) {
-                this.openTabs = tabs;
+                this.openTabs = tabs.sort(this.sortTabs);
                 this.filteredTabs = this.openTabs;
+            },
+            sortTabs: function (a, b) {
+                if (a.lastAccessed > b.lastAccessed) {
+                    return -1;
+                }
+                if (a.lastAccessed < b.lastAccessed) {
+                    return 1;
+                }
+                return 0;
             },
             topSitesLoaded: function (sites) {
                 this.topSites = this.topSites.concat(sites);
@@ -87,6 +97,9 @@
                 if (this.page < this.totalPages) {
                     this.page++;
                 }
+            },
+            changeSortOrder: function () {
+                this.sortAsc = !this.sortAsc;
             }
         },
         filters:{
@@ -114,6 +127,14 @@
         watch: {
             filter: function (value) {
                 this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(value.trim().toLowerCase()));
+            },
+            sortAsc: function () {
+                this.openTabs.reverse();
+                if (this.filter.trim().length  > 0){
+                    this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(this.filter.trim().toLowerCase()));
+                } else {
+                    this.filteredTabs = this.openTabs;
+                }
             }
         }
     }

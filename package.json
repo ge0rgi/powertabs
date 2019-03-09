@@ -11,9 +11,10 @@
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
-    "firefox": "web-ext run -s dist -f /home/ge0rgi/dev/firefox/firefox"
+    "firefox": "web-ext run -s dist"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.7.2",
     "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
     "moment": "^2.24.0",
