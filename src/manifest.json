@@ -1,7 +1,7 @@
 {
   "name": "Powertabs",
   "description": " replacement for the new tab page in Firefox. Provides a searchable and sortable list of all open tabs in the current window.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "manifest_version": 2,
 
   "permissions": ["tabs", "topSites"],

@@ -13,7 +13,7 @@
             <thead>
             <tr>
                 <th>Title</th>
-                <th @click="changeSortOrder">Last Visited <i v-if="sortAsc" class="fas fa-sort-alpha-up"></i> <i v-if="!sortAsc" class="fas fa-sort-alpha-down"></i> </th>
+                <th @click="changeSortOrder">Last Visited <i v-if="recentlyUsedFirst" class="fas fa-sort-alpha-up"></i> <i v-if="!recentlyUsedFirst" class="fas fa-sort-alpha-down"></i> </th>
                 <th></th>
             </tr>
             </thead>
@@ -57,7 +57,7 @@
               filteredTabs: [],
               page: 1,
               filter: '',
-              sortAsc: true
+              recentlyUsedFirst: true
           }
         },
         created () {
@@ -68,6 +68,9 @@
         methods: {
             tabsLoaded: function (tabs) {
                 this.openTabs = tabs.sort(this.sortTabs);
+                if (!this.recentlyUsedFirst){
+                    this.openTabs.reverse();
+                }
                 this.updateFiltering();
             },
             sortTabs: function (a, b) {
@@ -104,7 +107,7 @@
                 }
             },
             changeSortOrder: function () {
-                this.sortAsc = !this.sortAsc
+                this.recentlyUsedFirst = !this.recentlyUsedFirst
             },
             updateFiltering: function () {
                 if (this.filter.trim().length > 0) {
@@ -145,7 +148,7 @@
             filter: function (value) {
                 this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(value.trim().toLowerCase()))
             },
-            sortAsc: function () {
+            recentlyUsedFirst: function () {
                 this.openTabs.reverse();
                 this.updateFiltering();
 
