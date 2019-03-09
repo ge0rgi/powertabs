@@ -46,7 +46,7 @@
         data () {
           return {
               topSitesTitle: 'Top Sites',
-              tabCountTitle: "Tab Count",
+              tabCountTitle: 'Tab Count',
               topSites: [],
               openTabs: [],
               filteredTabs: [],
@@ -55,85 +55,85 @@
               sortAsc: true
           }
         },
-        created() {
-            browser.tabs.query({currentWindow: true}).then(this.tabsLoaded);
-            //TODO make limit configurable
-            browser.topSites.get({limit: 5, includeFavicon: true}).then(this.topSitesLoaded);
+        created () {
+            browser.tabs.query({ currentWindow: true }).then(this.tabsLoaded);
+            // TODO make limit configurable
+            browser.topSites.get({ limit: 5, includeFavicon: true }).then(this.topSitesLoaded)
         },
         methods: {
             tabsLoaded: function (tabs) {
                 this.openTabs = tabs.sort(this.sortTabs);
-                this.filteredTabs = this.openTabs;
+                this.filteredTabs = this.openTabs
             },
             sortTabs: function (a, b) {
                 if (a.lastAccessed > b.lastAccessed) {
-                    return -1;
+                    return -1
                 }
                 if (a.lastAccessed < b.lastAccessed) {
-                    return 1;
+                    return 1
                 }
-                return 0;
+                return 0
             },
             topSitesLoaded: function (sites) {
-                this.topSites = this.topSites.concat(sites);
+                this.topSites = this.topSites.concat(sites)
             },
             openTab: function (url) {
-                browser.tabs.getCurrent().then(tab => browser.tabs.update(tab.id, {url: url}));
+                browser.tabs.getCurrent().then(tab => browser.tabs.update(tab.id, { url: url }))
             },
             gotoTab: function (id) {
-                browser.tabs.getCurrent().then(tab => browser.tabs.update(id, {active: true})
-                    .then(this.closeTab(tab.id)));
+                browser.tabs.getCurrent().then(tab => browser.tabs.update(id, { active: true })
+                    .then(this.closeTab(tab.id)))
             },
             closeTab: function (id, index) {
                 browser.tabs.remove(id);
-                this.openTabs.splice(index, 1);
+                this.openTabs.splice(index, 1)
             },
             prevPage: function () {
-                if (this.page > 1){
-                    this.page--;
+                if (this.page > 1) {
+                    this.page--
                 }
             },
             nextPage: function () {
                 if (this.page < this.totalPages) {
-                    this.page++;
+                    this.page++
                 }
             },
             changeSortOrder: function () {
-                this.sortAsc = !this.sortAsc;
+                this.sortAsc = !this.sortAsc
             }
         },
-        filters:{
-            moment: function(date){
-                return moment(date).fromNow();
+        filters: {
+            moment: function (date) {
+                return moment(date).fromNow()
             },
             trim: function (str) {
-                return str.length > 80 ? str.substring(0,80) + "..." : str;
+                return str.length > 80 ? str.substring(0, 80) + '...' : str
             }
         },
-        computed : {
+        computed: {
             tabCount: function () {
-                return this.openTabs.length;
+                return this.openTabs.length
             },
             filteredTabCount: function () {
-                return this.filteredTabs.length;
+                return this.filteredTabs.length
             },
             totalPages: function () {
-                return Math.ceil(this.filteredTabCount / 20);
+                return Math.ceil(this.filteredTabCount / 20)
             },
             displayedTabs: function () {
-                return this.filteredTabs.slice((this.page -1) * 20, this.page * 20);
+                return this.filteredTabs.slice((this.page - 1) * 20, this.page * 20)
             }
         },
         watch: {
             filter: function (value) {
-                this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(value.trim().toLowerCase()));
+                this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(value.trim().toLowerCase()))
             },
             sortAsc: function () {
                 this.openTabs.reverse();
-                if (this.filter.trim().length  > 0){
-                    this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(this.filter.trim().toLowerCase()));
+                if (this.filter.trim().length > 0) {
+                    this.filteredTabs = this.openTabs.filter(el => el.title.toLowerCase().includes(this.filter.trim().toLowerCase()))
                 } else {
-                    this.filteredTabs = this.openTabs;
+                    this.filteredTabs = this.openTabs
                 }
             }
         }
