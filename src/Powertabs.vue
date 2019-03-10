@@ -2,9 +2,12 @@
     <div class="container-fluid">
         <h4>{{topSitesTitle}}</h4>
         <ol>
-           <li v-for="site in topSites">
-               <a v-bind:href="site.url">{{site.url}}</a>
-           </li>
+           <template v-for="site in topSites">
+                <li>
+                    <branding v-bind:url="site.url"></branding>
+                    <a v-bind:href="site.url">{{site.url}}</a>
+                </li>
+           </template>
         </ol>
         <h4>{{tabCountTitle}} {{tabCount}}</h4>
         <h4 v-if="tabCount !== filteredTabCount">Search result count {{filteredTabCount}}</h4>
@@ -23,7 +26,8 @@
                         <td>
                             <i v-if="tab.pinned" class="fas fa-thumbtack"></i>
                             <i v-if="tab.audible && !tab.mutedInfo.muted" @click="toogleMute(tab)" class="fas fa-volume-up"></i>
-                            <i v-if="tab.audible && tab.mutedInfo.muted"  @click="toogleMute(tab)" class="fas fa-volume-mute"></i>
+                            <i v-if="tab.mutedInfo.muted"  @click="toogleMute(tab)" class="fas fa-volume-mute"></i>
+                            <branding v-bind:url="tab.url"></branding>
                             {{tab.title | trim }}
                         </td>
                         <td>{{tab.lastAccessed | moment}}</td>
@@ -47,7 +51,9 @@
 </template>
 
 <script>
+    import Branding from "./Branding";
     export default {
+        components: {Branding},
         data () {
           return {
               topSitesTitle: 'Top Sites',

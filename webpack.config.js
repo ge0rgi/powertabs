@@ -66,7 +66,9 @@ const config = {
       { from: '../node_modules/moment/min/moment.min.js', to: 'vendor/moment.min.js'},
       { from: '../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css', to: 'vendor/fontawesome.min.css'},
       { from: '../node_modules/@fortawesome/fontawesome-free/css/solid.min.css', to: 'vendor/solid.min.css'},
+      { from: '../node_modules/@fortawesome/fontawesome-free/css/brands.min.css', to: 'vendor/brands.min.css'},
       { from: '../node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2', to: 'webfonts/fa-solid-900.woff2'},
+      { from: '../node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2', to: 'webfonts/fa-brands-400.woff2'},
       {
         from: 'manifest.json',
         to: 'manifest.json',
