@@ -133,7 +133,7 @@
                 return moment(date).fromNow()
             },
             trim: function (str) {
-                return str.length > 80 ? str.substring(0, 80) + '...' : str
+                return str !== undefined && str.length > 80 ? str.substring(0, 80) + '...' : str
             }
         },
         computed: {
